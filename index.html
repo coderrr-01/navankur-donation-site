@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Navankur Foundation – Donate (Prototype)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@600;700&family=Mukta:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F3F7F4; --surface:#FFFFFF; --ink:#16302D; --muted:#4F6663; --line:#D3E0DA;
+  --brand:#0F4C45; --brand-ink:#FFFFFF; --accent:#F2B632; --accent-ink:#2A2000; --bar:#E4EEE9;
+  box-sizing:border-box; padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0E1B19; --surface:#152724; --ink:#E6F0EC; --muted:#9DB5AF; --line:#27403B;
+    --brand:#5CC4B2; --brand-ink:#06201C; --accent:#F2B632; --accent-ink:#2A2000; --bar:#21362F; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0E1B19; --surface:#152724; --ink:#E6F0EC; --muted:#9DB5AF; --line:#27403B;
+  --brand:#5CC4B2; --brand-ink:#06201C; --accent:#F2B632; --accent-ink:#2A2000; --bar:#21362F; color-scheme:dark;
+}
+html{scroll-padding-top:env(safe-area-inset-top,0px);scroll-behavior:smooth}
+*,*::before,*::after{box-sizing:inherit}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 17px/1.6 "Mukta",system-ui,-apple-system,"Segoe UI",sans-serif}
+h1,h2,h3{font-family:"Fraunces",Georgia,"Times New Roman",serif;line-height:1.15;margin:0}
+a{color:var(--brand)}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.wrap{max-width:1080px;margin:0 auto;padding:0 20px}
+.demo{background:var(--accent);color:var(--accent-ink);font-size:14px;text-align:center;padding:6px 12px;font-weight:500}
+header.top{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:18px 0;flex-wrap:wrap}
+.logo{font:700 22px "Fraunces",Georgia,serif;color:var(--brand);text-decoration:none}
+nav a{margin-left:18px;text-decoration:none;color:var(--ink);font-weight:500}
+nav a:hover{color:var(--brand)}
+.hero{display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:start;padding:28px 0 56px}
+.hero h1{font-size:clamp(34px,5.4vw,56px);margin-bottom:16px}
+.hero p.lead{font-size:19px;color:var(--muted);max-width:34em;margin:0 0 22px}
+.promise{border-left:4px solid var(--accent);padding:4px 0 4px 14px;color:var(--muted);max-width:32em}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:24px}
+.card h2{font-size:26px;margin-bottom:14px}
+label{display:block;font-weight:700;font-size:15px;margin:14px 0 6px}
+input,select{width:100%;font:inherit;color:var(--ink);background:var(--bg);border:1.5px solid var(--line);border-radius:8px;padding:10px 12px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{font:inherit;font-weight:700;color:var(--ink);background:var(--bg);border:1.5px solid var(--line);border-radius:999px;padding:7px 16px;cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--brand);color:var(--brand-ink);border-color:var(--brand)}
+.impact{margin:14px 0 0;padding:10px 12px;border-radius:8px;background:var(--bar);font-weight:500;min-height:3.2em}
+.btn{display:block;width:100%;margin-top:18px;font:700 18px "Mukta",sans-serif;background:var(--brand);color:var(--brand-ink);border:0;border-radius:10px;padding:13px;cursor:pointer}
+.btn:hover{filter:brightness(1.08)}
+.err{color:#C0392B;font-size:14px;margin:6px 0 0;min-height:1.2em}
+:root[data-theme="dark"] .err{color:#FF8A7A}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .err{color:#FF8A7A}}
+.thanks{display:none;text-align:center}
+.thanks h2{margin-bottom:8px}
+.thanks.show{display:block}
+section{padding:48px 0;border-top:1px solid var(--line)}
+section>.wrap>h2{font-size:clamp(28px,4vw,38px);margin-bottom:8px}
+.sub{color:var(--muted);margin:0 0 26px;max-width:40em}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px}
+.camp h3{font-size:22px;margin-bottom:6px}
+.camp p{color:var(--muted);margin:0 0 14px;font-size:16px}
+.meter{height:10px;background:var(--bar);border-radius:99px;overflow:hidden}
+.meter i{display:block;height:100%;background:var(--brand);border-radius:99px;transition:width .6s ease}
+.nums{display:flex;justify-content:space-between;font-size:15px;margin:8px 0 14px}
+.ghost{font:700 16px "Mukta",sans-serif;background:transparent;color:var(--brand);border:2px solid var(--brand);border-radius:10px;padding:8px 16px;cursor:pointer}
+.ghost:hover{background:var(--brand);color:var(--brand-ink)}
+.use{list-style:none;padding:0;margin:0;max-width:560px}
+.use li{margin-bottom:14px}
+.use b{display:flex;justify-content:space-between}
+.sup{list-style:none;padding:0;margin:0;max-width:640px}
+.sup li{display:flex;justify-content:space-between;gap:12px;padding:12px 0;border-bottom:1px solid var(--line)}
+.sup small{color:var(--muted);display:block}
+.empty{color:var(--muted)}
+footer{border-top:1px solid var(--line);padding:28px 0 36px;color:var(--muted);font-size:15px}
+footer button{font:inherit;background:none;border:0;color:var(--brand);text-decoration:underline;cursor:pointer;padding:0}
+@media (max-width:820px){.hero{grid-template-columns:1fr}nav a{margin:0 14px 0 0}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<div class="demo">Prototype for an academic internship project. No real payments are made and the foundation is fictional.</div>
+<div class="wrap">
+  <header class="top">
+    <a class="logo" href="#top">Navankur Foundation</a>
+    <nav aria-label="Main"><a href="#campaigns">Campaigns</a><a href="#use">Where money goes</a><a href="#supporters">Supporters</a><a href="#about">About</a></nav>
+  </header>
+
+  <div class="hero" id="top">
+    <div>
+      <h1>₹500 puts a school kit in a child’s hands.</h1>
+      <p class="lead">Navankur supports children in rural Gujarat with school supplies, clean drinking water and free evening computer classes. Pick an amount and see what it does.</p>
+      <p class="promise">Every campaign shows how much has been raised and what the next rupee buys.</p>
+    </div>
+
+    <div class="card" id="donate">
+      <div id="formView">
+        <h2>Make a donation</h2>
+        <form id="form" novalidate>
+          <label for="campaign">Campaign</label>
+          <select id="campaign"></select>
+          <label id="amtLabel">Amount (₹)</label>
+          <div class="chips" role="group" aria-labelledby="amtLabel" id="chips"></div>
+          <input id="amount" type="number" min="10" step="1" inputmode="numeric" placeholder="Or enter another amount" aria-label="Custom amount in rupees" style="margin-top:10px">
+          <p class="impact" id="impact" aria-live="polite"></p>
+          <label for="name">Your name</label>
+          <input id="name" type="text" maxlength="40" autocomplete="name">
+          <label for="email">Email for the receipt</label>
+          <input id="email" type="email" maxlength="80" autocomplete="email">
+          <p class="err" id="err" role="alert"></p>
+          <button class="btn" type="submit" id="submitBtn">Donate</button>
+        </form>
+      </div>
+      <div class="thanks" id="thanksView" tabindex="-1">
+        <h2>Thank you, <span id="tName"></span>.</h2>
+        <p id="tMsg"></p>
+        <p class="empty">This is a demo, so no money was taken.</p>
+        <button class="ghost" id="again" type="button">Make another donation</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<section id="campaigns"><div class="wrap">
+  <h2>Active campaigns</h2>
+  <p class="sub">Choose where your donation goes. Progress updates as soon as you donate.</p>
+  <div class="grid" id="campGrid"></div>
+</div></section>
+
+<section id="use"><div class="wrap">
+  <h2>Where the money goes</h2>
+  <p class="sub">A plain split, so donors know what they are paying for.</p>
+  <ul class="use">
+    <li><b><span>Programs on the ground</span><span>82%</span></b><div class="meter"><i style="width:82%"></i></div></li>
+    <li><b><span>Volunteer training and travel</span><span>10%</span></b><div class="meter"><i style="width:10%"></i></div></li>
+    <li><b><span>Admin and website</span><span>8%</span></b><div class="meter"><i style="width:8%"></i></div></li>
+  </ul>
+</div></section>
+
+<section id="supporters"><div class="wrap">
+  <h2>Recent supporters</h2>
+  <p class="sub">Donations made on this page appear here.</p>
+  <ul class="sup" id="supList"></ul>
+</div></section>
+
+<section id="about"><div class="wrap">
+  <h2>About this project</h2>
+  <p class="sub">Navankur (meaning “sprout”) is a fictional foundation created for a GTU Societal Internship report. The site was built with HTML, CSS and JavaScript to practise forms, state handling and responsive layout, and it can be adapted for a real NGO later.</p>
+</div></section>
+
+<footer><div class="wrap">
+  Navankur Foundation is a demo. Data is saved only in this browser. <button type="button" id="reset">Reset demo data</button>
+</div></footer>
+
+<script>
+(function(){
+  var KEY="navankur-demo-v1";
+  var DEFAULT={
+    camps:[
+      {id:"kits",title:"School kits for 200 children",desc:"Bag, notebooks, stationery and a water bottle for each child.",goal:100000,raised:62500,cost:500,unit:"school kit",units:"school kits"},
+      {id:"water",title:"Clean water for 40 families",desc:"Low-cost water filters and a yearly maintenance visit.",goal:60000,raised:21000,cost:1500,unit:"family’s clean water for a year",units:"families’ clean water for a year"},
+      {id:"digital",title:"Free evening computer classes",desc:"Basic computer and internet lessons for village students.",goal:48000,raised:30300,cost:300,unit:"student-month of classes",units:"student-months of classes"}
+    ],
+    donors:[
+      {n:"Riya P.",a:1001,c:"kits",t:"2 days ago"},
+      {n:"Kunal S.",a:501,c:"digital",t:"3 days ago"}
+    ]
+  };
+  var state=load();
+  function load(){
+    try{var r=localStorage.getItem(KEY);if(r){var p=JSON.parse(r);if(p&&p.camps&&p.donors)return p;}}catch(e){}
+    return JSON.parse(JSON.stringify(DEFAULT));
+  }
+  function save(){try{localStorage.setItem(KEY,JSON.stringify(state));}catch(e){}}
+  function $(id){return document.getElementById(id)}
+  function inr(n){return "₹"+Number(n).toLocaleString("en-IN")}
+  function camp(id){return state.camps.filter(function(c){return c.id===id})[0]}
+
+  var sel=$("campaign"),amt=$("amount"),chipsEl=$("chips");
+  [251,501,1001,2501].forEach(function(v){
+    var b=document.createElement("button");b.type="button";b.className="chip";b.textContent=inr(v);b.dataset.v=v;b.setAttribute("aria-pressed","false");
+    b.addEventListener("click",function(){amt.value=v;sync();});chipsEl.appendChild(b);
+  });
+  state.camps.forEach(function(c){var o=document.createElement("option");o.value=c.id;o.textContent=c.title;sel.appendChild(o);});
+
+  function sync(){
+    var v=Number(amt.value);
+    Array.prototype.forEach.call(chipsEl.children,function(b){b.setAttribute("aria-pressed",String(Number(b.dataset.v)===v));});
+    var c=camp(sel.value),n=Math.floor(v/c.cost);
+    $("impact").textContent=!v?"Pick an amount to see what it buys.":
+      n>=1?inr(v)+" pays for "+n+" "+(n===1?c.unit:c.units)+".":
+      inr(v)+" gets this campaign closer to its next "+c.unit+" ("+inr(c.cost)+").";
+    $("submitBtn").textContent=v>0?"Donate "+inr(v):"Donate";
+  }
+  amt.addEventListener("input",sync);sel.addEventListener("change",sync);
+
+  function renderCamps(){
+    var g=$("campGrid");g.textContent="";
+    state.camps.forEach(function(c){
+      var pct=Math.min(100,Math.round(c.raised/c.goal*100));
+      var d=document.createElement("article");d.className="card camp";
+      d.innerHTML='<h3></h3><p></p><div class="meter" role="progressbar" aria-valuemin="0" aria-valuemax="100"><i></i></div><div class="nums"><span></span><span></span></div><button class="ghost" type="button">Donate to this campaign</button>';
+      d.querySelector("h3").textContent=c.title;
+      d.querySelector("p").textContent=c.desc;
+      var m=d.querySelector(".meter");m.setAttribute("aria-valuenow",pct);m.setAttribute("aria-label",c.title+" progress");
+      d.querySelector("i").style.width=pct+"%";
+      var s=d.querySelectorAll(".nums span");s[0].textContent=inr(c.raised)+" raised";s[1].textContent=pct+"% of "+inr(c.goal);
+      d.querySelector("button").addEventListener("click",function(){
+        showForm();sel.value=c.id;if(!amt.value)amt.value=501;sync();
+        $("donate").scrollIntoView({behavior:"smooth",block:"center"});amt.focus({preventScroll:true});
+      });
+      g.appendChild(d);
+    });
+  }
+  function renderDonors(){
+    var l=$("supList");l.textContent="";
+    if(!state.donors.length){var e=document.createElement("li");e.className="empty";e.textContent="No donations yet. Be the first from this page.";l.appendChild(e);return;}
+    state.donors.slice(0,8).forEach(function(x){
+      var li=document.createElement("li");
+      li.innerHTML="<span><strong></strong><small></small></span><strong></strong>";
+      var st=li.querySelectorAll("strong");st[0].textContent=x.n;st[1].textContent=inr(x.a);
+      li.querySelector("small").textContent=camp(x.c).title+" · "+x.t;
+      l.appendChild(li);
+    });
+  }
+  function showForm(){$("formView").style.display="";$("thanksView").classList.remove("show");}
+
+  $("form").addEventListener("submit",function(e){
+    e.preventDefault();
+    var v=Math.floor(Number(amt.value)),n=$("name").value.trim(),em=$("email").value.trim(),err=$("err");
+    if(!(v>=10)){err.textContent="Enter an amount of at least ₹10.";amt.focus();return;}
+    if(!n){err.textContent="Enter your name so we can thank you.";$("name").focus();return;}
+    if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(em)){err.textContent="Enter a valid email, like name@example.com.";$("email").focus();return;}
+    err.textContent="";
+    var c=camp(sel.value);c.raised+=v;
+    state.donors.unshift({n:n,a:v,c:c.id,t:"just now"});
+    save();renderCamps();renderDonors();
+    $("tName").textContent=n.split(" ")[0];
+    $("tMsg").textContent="Your "+inr(v)+" donation to “"+c.title+"” has been recorded. A receipt would be sent to "+em+".";
+    $("formView").style.display="none";$("thanksView").classList.add("show");$("thanksView").focus();
+    $("form").reset();sync();
+  });
+  $("again").addEventListener("click",function(){showForm();amt.focus();});
+  $("reset").addEventListener("click",function(){
+    try{localStorage.removeItem(KEY);}catch(e){}
+    state=JSON.parse(JSON.stringify(DEFAULT));renderCamps();renderDonors();showForm();sync();
+  });
+
+  amt.value=501;sync();renderCamps();renderDonors();
+})();
+</script>
+</body>
+</html>
